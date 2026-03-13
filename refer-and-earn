@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Satellite Vision Cable Network</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+Bengali:wght@400;600;700;900&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --green: #006A4E;
+    --green-light: #00875f;
+    --green-dark: #004d38;
+    --green-glow: rgba(0,106,78,0.6);
+    --red: #F42A41;
+    --red-bright: #FF3D56;
+    --red-glow: rgba(244,42,65,0.5);
+    --gold: #FFD700;
+    --gold-light: #FFE55C;
+    --white: #FFFFFF;
+    --cream: #FFF8F0;
+    --dark: #0a1a14;
+  }
+
+  body {
+    background: #1a1a2e;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 20px;
+    font-family: 'Barlow', sans-serif;
+  }
+
+  .poster {
+    width: 1080px;
+    min-height: 1350px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0;
+    background: var(--dark);
+  }
+
+  /* ─── CINEMATIC BACKGROUND ─── */
+  .bg-scene {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      /* sunset sky */
+      radial-gradient(ellipse 120% 60% at 50% 0%, #FF6B35 0%, #E8480A 15%, #B8320A 30%, #7A1A0A 50%, transparent 70%),
+      /* coastal glow */
+      radial-gradient(ellipse 80% 40% at 30% 85%, #006A4E44 0%, transparent 60%),
+      radial-gradient(ellipse 60% 30% at 75% 90%, #00453322 0%, transparent 50%),
+      /* deep sky */
+      linear-gradient(180deg,
+        #1A0505 0%,
+        #3D1205 8%,
+        #6B2810 18%,
+        #8B3A15 28%,
+        #5A2A20 45%,
+        #1A2A1E 65%,
+        #0D1F16 80%,
+        #061210 100%
+      );
+  }
+
+  /* City skyline silhouette */
+  .skyline {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 380px;
+    z-index: 1;
+    opacity: 0.55;
+  }
+
+  /* Water reflection at bottom */
+  .water {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 120px;
+    background: linear-gradient(180deg, transparent 0%, #00352288 40%, #001a1066 100%);
+    z-index: 2;
+  }
+  .water::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent 0%, #00875f08 2%, transparent 4%
+    );
+    animation: waterShimmer 4s ease-in-out infinite alternate;
+  }
+  @keyframes waterShimmer {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(8px); }
+  }
+
+  /* Overlay for text readability */
+  .overlay {
+    position: absolute; inset: 0; z-index: 3;
+    background: linear-gradient(180deg,
+      rgba(0,0,0,0.45) 0%,
+      rgba(0,20,14,0.35) 25%,
+      rgba(0,30,20,0.2) 50%,
+      rgba(0,20,14,0.5) 75%,
+      rgba(0,10,8,0.7) 100%
+    );
+  }
+
+  /* Green vignette band */
+  .green-band {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--green-dark), var(--green), var(--green-light), var(--green), var(--green-dark));
+    z-index: 20;
+    box-shadow: 0 0 30px var(--green-glow), 0 0 60px rgba(0,106,78,0.3);
+  }
+  .red-band {
+    position: absolute;
+    top: 6px; left: 0; right: 0;
+    height: 3px;
+    background: var(--red);
+    z-index: 20;
+    box-shadow: 0 0 20px var(--red-glow);
+  }
+
+  /* ─── CONTENT LAYER ─── */
+  .content {
+    position: relative;
+    z-index: 10;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ═══════════════════════════════
+     SECTION 1: HOOK
+  ═══════════════════════════════ */
+  .hook-section {
+    width: 100%;
+    padding: 40px 60px 10px;
+    text-align: center;
+    position: relative;
+  }
+
+  .hook-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.95;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+  }
+  .hook-eyebrow::before,
+  .hook-eyebrow::after {
+    content: '';
+    height: 1px;
+    width: 60px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .hook-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 112px;
+    line-height: 0.92;
+    letter-spacing: 4px;
+    color: var(--white);
+    text-transform: uppercase;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.1);
+    filter: drop-shadow(0 0 40px rgba(0,0,0,0.8));
+    position: relative;
+  }
+  .hook-headline .word-refer { color: var(--white); }
+  .hook-headline .word-amp { color: var(--gold); font-size: 96px; }
+  .hook-headline .word-get { color: var(--white); }
+  .hook-headline .word-rewarded {
+    color: var(--red-bright);
+    -webkit-text-stroke: 1px rgba(255,61,86,0.3);
+    text-shadow:
+      0 0 30px rgba(255,61,86,0.8),
+      0 0 60px rgba(255,61,86,0.4),
+      0 4px 0 rgba(120,0,20,0.9);
+    display: block;
+  }
+
+  .hook-subline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.75);
+    margin-top: 10px;
+    text-transform: uppercase;
+  }
+
+  /* ═══════════════════════════════
+     SECTION 2: MAIN OFFER BADGE
+  ═══════════════════════════════ */
+  .offer-badge-wrap {
+    width: 100%;
+    padding: 20px 60px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+
+  .offer-badge {
+    position: relative;
+    background: linear-gradient(135deg,
+      rgba(180,0,30,0.95) 0%,
+      rgba(220,20,50,0.98) 40%,
+      rgba(200,10,40,0.95) 100%
+    );
+    border: 2px solid rgba(255,100,120,0.5);
+    border-radius: 20px;
+    padding: 28px 50px 24px;
+    text-align: center;
+    box-shadow:
+      0 0 50px rgba(244,42,65,0.6),
+      0 0 100px rgba(244,42,65,0.3),
+      inset 0 1px 0 rgba(255,200,200,0.3),
+      0 20px 60px rgba(0,0,0,0.5);
+    max-width: 780px;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .offer-badge::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 50%);
+    border-radius: inherit;
+  }
+
+  /* Diagonal ribbon */
+  .badge-ribbon {
+    position: absolute;
+    top: 22px; right: -35px;
+    background: var(--gold);
+    color: var(--dark);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    letter-spacing: 2px;
+    padding: 6px 50px;
+    transform: rotate(30deg);
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  }
+
+  .badge-top-line {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 5px;
+    color: rgba(255,220,220,0.85);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .badge-main {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 88px;
+    line-height: 1;
+    color: var(--white);
+    text-shadow: 0 4px 0 rgba(0,0,0,0.4), 0 0 30px rgba(255,220,220,0.3);
+    letter-spacing: 3px;
+  }
+  .badge-main .taka { font-size: 64px; vertical-align: middle; }
+
+  .badge-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 10px 0;
+    justify-content: center;
+  }
+  .badge-divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,220,220,0.5), transparent);
+  }
+  .badge-divider-plus {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--gold);
+    text-shadow: 0 0 15px var(--gold);
+  }
+
+  .badge-secondary {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 34px;
+    color: var(--gold-light);
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(255,215,0,0.6);
+    text-transform: uppercase;
+  }
+
+  .badge-months {
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px;
+    color: rgba(255,220,220,0.7);
+    margin-top: 4px;
+    letter-spacing: 1px;
+  }
+
+  /* ═══════════════════════════════
+     SECTION 3: OFFER CARDS
+  ═══════════════════════════════ */
+  .offers-section {
+    width: 100%;
+    padding: 10px 45px 10px;
+  }
+
+  .offers-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 5px;
+    color: var(--gold);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 14px;
+    opacity: 0.9;
+  }
+
+  .offers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .offer-card {
+    background: linear-gradient(145deg,
+      rgba(0,80,56,0.75) 0%,
+      rgba(0,55,38,0.85) 100%
+    );
+    border: 1px solid rgba(0,180,120,0.25);
+    border-radius: 16px;
+    padding: 20px 18px 18px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    box-shadow:
+      0 8px 32px rgba(0,0,0,0.4),
+      inset 0 1px 0 rgba(0,200,140,0.2);
+    transition: transform 0.2s;
+  }
+
+  .offer-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 16px 16px 0 0;
+  }
+  .offer-card:nth-child(1)::before { background: linear-gradient(90deg, var(--gold), #FFAA00); box-shadow: 0 0 15px var(--gold); }
+  .offer-card:nth-child(2)::before { background: linear-gradient(90deg, var(--red), #FF6080); box-shadow: 0 0 15px var(--red); }
+  .offer-card:nth-child(3)::before { background: linear-gradient(90deg, #00C88A, #00FF99); box-shadow: 0 0 15px #00C88A; }
+
+  .card-icon {
+    font-size: 36px;
+    margin-bottom: 10px;
+    display: block;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+  }
+
+  .card-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .offer-card:nth-child(1) .card-label { color: var(--gold); }
+  .offer-card:nth-child(2) .card-label { color: #FF8090; }
+  .offer-card:nth-child(3) .card-label { color: #00E898; }
+
+  .card-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 26px;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 6px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  }
+
+  .card-desc {
+    font-family: 'Barlow', sans-serif;
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.5;
+  }
+  .card-desc strong { color: var(--white); font-weight: 600; }
+
+  /* ═══════════════════════════════
+     SECTION 4: VISUAL TRUST SCENE
+  ═══════════════════════════════ */
+  .scene-section {
+    width: 100%;
+    padding: 18px 60px 10px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .scene-container {
+    width: 100%;
+    max-width: 940px;
+    background: linear-gradient(135deg,
+      rgba(0,60,42,0.5) 0%,
+      rgba(0,40,28,0.4) 100%
+    );
+    border: 1px solid rgba(0,200,140,0.15);
+    border-radius: 24px;
+    padding: 28px 36px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+  }
+  .scene-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,106,78,0.2), transparent);
+  }
+
+  .scene-inner {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* People illustration */
+  .people-area {
+    flex: 0 0 340px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  .people-svg-wrap {
+    width: 320px;
+    height: 200px;
+    position: relative;
+  }
+
+  /* Network diagram */
+  .network-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .network-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+
+  .network-svg-wrap {
+    width: 100%;
+    height: 180px;
+  }
+
+  /* ═══════════════════════════════
+     SECTION 5: BENEFIT LINE
+  ═══════════════════════════════ */
+  .benefit-section {
+    width: 100%;
+    padding: 18px 60px 10px;
+    text-align: center;
+  }
+
+  .benefit-pill {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(0,106,78,0.7), rgba(0,70,50,0.8));
+    border: 1px solid rgba(0,200,140,0.3);
+    border-radius: 50px;
+    padding: 14px 40px;
+    position: relative;
+    box-shadow: 0 0 30px rgba(0,106,78,0.4), inset 0 1px 0 rgba(0,200,140,0.2);
+  }
+
+  .benefit-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 21px;
+    color: var(--white);
+    letter-spacing: 1px;
+    line-height: 1.4;
+  }
+  .benefit-text em {
+    font-style: normal;
+    color: var(--gold-light);
+    font-weight: 700;
+  }
+
+  /* ═══════════════════════════════
+     SECTION 6: CONDITIONS
+  ═══════════════════════════════ */
+  .conditions-section {
+    width: 100%;
+    padding: 14px 60px 20px;
+  }
+
+  .conditions-box {
+    background: rgba(0,0,0,0.55);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 16px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    backdrop-filter: blur(6px);
+  }
+
+  .conditions-header {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: rgba(255,200,100,0.7);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .condition-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.5;
+  }
+  .condition-item::before {
+    content: '•';
+    color: var(--red);
+    font-size: 16px;
+    line-height: 1.3;
+    flex-shrink: 0;
+  }
+  .condition-item strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+
+  /* Bottom band */
+  .bottom-band {
+    width: 100%;
+    height: 9px;
+    background: linear-gradient(90deg,
+      var(--green-dark) 0%,
+      var(--green) 20%,
+      var(--white) 40%,
+      var(--white) 60%,
+      var(--red) 80%,
+      var(--red) 100%
+    );
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
+    margin-top: 10px;
+  }
+
+  /* ─── AMBIENT PARTICLES ─── */
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 4;
+    animation: floatParticle linear infinite;
+  }
+  @keyframes floatParticle {
+    0% { transform: translateY(0) scale(1); opacity: var(--op); }
+    50% { opacity: calc(var(--op) * 1.5); }
+    100% { transform: translateY(-120px) scale(0.5); opacity: 0; }
+  }
+
+  /* Scanline effect */
+  .scanlines {
+    position: absolute; inset: 0; z-index: 5; pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.04) 2px,
+      rgba(0,0,0,0.04) 4px
+    );
+  }
+
+  /* Glow orbs */
+  .glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(80px);
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <!-- Background scene -->
+  <div class="bg-scene"></div>
+
+  <!-- Glow orbs for atmosphere -->
+  <div class="glow-orb" style="width:500px;height:400px;top:-100px;left:-100px;background:rgba(255,100,40,0.18);"></div>
+  <div class="glow-orb" style="width:400px;height:300px;top:200px;right:-80px;background:rgba(0,106,78,0.2);"></div>
+  <div class="glow-orb" style="width:600px;height:300px;bottom:200px;left:50%;transform:translateX(-50%);background:rgba(0,70,50,0.3);"></div>
+
+  <!-- City skyline SVG -->
+  <svg class="skyline" viewBox="0 0 1080 380" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+    <defs>
+      <linearGradient id="bldg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1a3a2a" stop-opacity="0.9"/>
+        <stop offset="100%" stop-color="#0a1a12" stop-opacity="1"/>
+      </linearGradient>
+      <filter id="glow2">
+        <feGaussianBlur stdDeviation="2" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <!-- Background hills -->
+    <ellipse cx="540" cy="380" rx="700" ry="120" fill="#0a1810" opacity="0.8"/>
+    <!-- Buildings far back -->
+    <rect x="20" y="220" width="40" height="160" fill="url(#bldg)" opacity="0.6"/>
+    <rect x="65" y="190" width="55" height="190" fill="url(#bldg)" opacity="0.6"/>
+    <rect x="125" y="230" width="35" height="150" fill="url(#bldg)" opacity="0.5"/>
+    <rect x="165" y="170" width="45" height="210" fill="url(#bldg)" opacity="0.7"/>
+    <rect x="215" y="200" width="60" height="180" fill="url(#bldg)" opacity="0.6"/>
+    <rect x="280" y="150" width="50" height="230" fill="url(#bldg)" opacity="0.75"/>
+    <rect x="335" y="210" width="38" height="170" fill="url(#bldg)" opacity="0.5"/>
+    <rect x="378" y="180" width="70" height="200" fill="url(#bldg)" opacity="0.65"/>
+    <rect x="455" y="140" width="45" height="240" fill="url(#bldg)" opacity="0.8"/>
+    <rect x="505" y="195" width="55" height="185" fill="url(#bldg)" opacity="0.6"/>
+    <rect x="565" y="165" width="48" height="215" fill="url(#bldg)" opacity="0.7"/>
+    <rect x="620" y="130" width="65" height="250" fill="url(#bldg)" opacity="0.8"/>
+    <rect x="690" y="175" width="42" height="205" fill="url(#bldg)" opacity="0.6"/>
+    <rect x="738" y="195" width="55" height="185" fill="url(#bldg)" opacity="0.55"/>
+    <rect x="800" y="160" width="50" height="220" fill="url(#bldg)" opacity="0.7"/>
+    <rect x="855" y="185" width="40" height="195" fill="url(#bldg)" opacity="0.6"/>
+    <rect x="900" y="145" width="60" height="235" fill="url(#bldg)" opacity="0.75"/>
+    <rect x="965" y="200" width="45" height="180" fill="url(#bldg)" opacity="0.55"/>
+    <rect x="1015" y="170" width="65" height="210" fill="url(#bldg)" opacity="0.65"/>
+    <!-- Windows (warm lights) -->
+    <rect x="172" y="182" width="5" height="4" fill="#FFD080" opacity="0.7"/>
+    <rect x="182" y="195" width="5" height="4" fill="#FFD080" opacity="0.5"/>
+    <rect x="292" y="160" width="5" height="4" fill="#FFD080" opacity="0.8"/>
+    <rect x="302" y="175" width="5" height="4" fill="#FFAA40" opacity="0.6"/>
+    <rect x="312" y="160" width="5" height="4" fill="#FFD080" opacity="0.4"/>
+    <rect x="462" y="150" width="5" height="4" fill="#FFD080" opacity="0.9"/>
+    <rect x="472" y="165" width="5" height="4" fill="#FFAA40" opacity="0.7"/>
+    <rect x="462" y="178" width="5" height="4" fill="#FFD080" opacity="0.6"/>
+    <rect x="630" y="140" width="5" height="4" fill="#FFD080" opacity="0.8"/>
+    <rect x="643" y="155" width="5" height="4" fill="#FFAA40" opacity="0.9"/>
+    <rect x="656" y="140" width="5" height="4" fill="#FFD080" opacity="0.5"/>
+    <rect x="630" y="168" width="5" height="4" fill="#FFD080" opacity="0.7"/>
+    <rect x="910" y="155" width="5" height="4" fill="#FFD080" opacity="0.8"/>
+    <rect x="923" y="170" width="5" height="4" fill="#FFAA40" opacity="0.6"/>
+    <rect x="936" y="155" width="5" height="4" fill="#FFD080" opacity="0.7"/>
+    <!-- Mosque silhouette -->
+    <polygon points="500,140 510,100 520,140" fill="#0d2018" opacity="0.85"/>
+    <rect x="498" y="138" width="24" height="55" fill="#0d2018" opacity="0.85"/>
+    <ellipse cx="510" cy="99" rx="6" ry="8" fill="#0d2018" opacity="0.85"/>
+    <!-- Crescent on top -->
+    <text x="509" y="90" font-size="12" fill="#D4AA40" opacity="0.6" font-family="Arial">☽</text>
+    <!-- Satellite dish -->
+    <ellipse cx="660" cy="125" rx="18" ry="8" fill="none" stroke="#1a3a2a" stroke-width="2" opacity="0.6"/>
+    <line x1="660" y1="133" x2="660" y2="145" stroke="#1a3a2a" stroke-width="2" opacity="0.6"/>
+    <!-- Palm trees -->
+    <line x1="380" y1="380" x2="390" y2="240" stroke="#0a2010" stroke-width="6" opacity="0.7"/>
+    <ellipse cx="390" cy="240" rx="30" ry="20" fill="#0a2010" opacity="0.6" transform="rotate(-10, 390, 240)"/>
+    <line x1="700" y1="380" x2="712" y2="250" stroke="#0a2010" stroke-width="5" opacity="0.6"/>
+    <ellipse cx="712" cy="250" rx="28" ry="18" fill="#0a2010" opacity="0.55" transform="rotate(8, 712, 250)"/>
+    <!-- Water/sea at base -->
+    <rect x="0" y="345" width="1080" height="35" fill="#061510" opacity="0.8"/>
+    <path d="M0,348 Q135,340 270,348 Q405,356 540,348 Q675,340 810,348 Q945,356 1080,348 L1080,380 L0,380 Z" fill="#082015" opacity="0.7"/>
+  </svg>
+
+  <div class="water"></div>
+  <div class="overlay"></div>
+  <div class="scanlines"></div>
+
+  <!-- Decorative bands -->
+  <div class="green-band"></div>
+  <div class="red-band"></div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- 1: HOOK -->
+    <div class="hook-section">
+      <div class="hook-eyebrow">🌐 &nbsp;Internet Referral Programme&nbsp; 🌐</div>
+      <div class="hook-headline">
+        <span class="word-refer">REFER &nbsp;</span><span class="word-amp">&</span><span class="word-get"> GET</span>
+        <span class="word-rewarded">REWARDED</span>
+      </div>
+      <div class="hook-subline">Exclusive Offer for Chattogram Subscribers</div>
+    </div>
+
+    <!-- 2: MAIN OFFER BADGE -->
+    <div class="offer-badge-wrap">
+      <div class="offer-badge">
+        <div class="badge-ribbon">🏆 EXCLUSIVE</div>
+        <div class="badge-top-line">🎁 &nbsp; Limited Time Referral Reward &nbsp; 🎁</div>
+        <div class="badge-main"><span class="taka">৳</span>100 <span style="font-size:44px;opacity:0.8;">OFF</span></div>
+        <div style="font-family:'Barlow Condensed';font-size:18px;color:rgba(255,220,220,0.7);letter-spacing:2px;margin:-4px 0 6px;">FOR 2 CONSECUTIVE MONTHS</div>
+        <div class="badge-divider">
+          <div class="badge-divider-line"></div>
+          <div class="badge-divider-plus">+ PLUS +</div>
+          <div class="badge-divider-line"></div>
+        </div>
+        <div class="badge-secondary">⚡ FREE 10 Mbps Speed Upgrade ⚡</div>
+        <div class="badge-months">Enjoy faster internet — automatically applied to your plan</div>
+      </div>
+    </div>
+
+    <!-- 3: OFFER CARDS -->
+    <div class="offers-section">
+      <div class="offers-title">★ &nbsp; Choose Your Offer &nbsp; ★</div>
+      <div class="offers-grid">
+        <div class="offer-card">
+          <span class="card-icon">🤝</span>
+          <div class="card-label">Referral Offer</div>
+          <div class="card-title">Refer a Friend</div>
+          <div class="card-desc">Invite someone you know. When they activate a new connection, <strong>you both win rewards</strong> — discounts, speed boosts, and more.</div>
+        </div>
+        <div class="offer-card">
+          <span class="card-icon">🔄</span>
+          <div class="card-label">Switch &amp; Save</div>
+          <div class="card-title">Switching ISP?</div>
+          <div class="card-desc">Moving from another provider? Receive a <strong>special welcome discount</strong> when you make the switch to faster, more reliable internet.</div>
+        </div>
+        <div class="offer-card">
+          <span class="card-icon">🏢</span>
+          <div class="card-label">Building Offer</div>
+          <div class="card-title">Group Discount</div>
+          <div class="card-desc">Multiple connections from the same building? <strong>Every unit saves</strong> with exclusive group rates — the more, the merrier.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4: VISUAL TRUST SCENE -->
+    <div class="scene-section">
+      <div class="scene-container">
+        <div class="scene-inner">
+          <!-- People + devices illustration -->
+          <div class="people-area">
+            <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" style="width:320px;height:200px;">
+              <defs>
+                <radialGradient id="glow3" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#00FF88" stop-opacity="0.15"/>
+                  <stop offset="100%" stop-color="#00FF88" stop-opacity="0"/>
+                </radialGradient>
+                <linearGradient id="skin1" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#C68642"/>
+                  <stop offset="100%" stop-color="#A0622A"/>
+                </linearGradient>
+                <linearGradient id="shirt1" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#006A4E"/>
+                  <stop offset="100%" stop-color="#004d38"/>
+                </linearGradient>
+                <linearGradient id="shirt2" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#C8102E"/>
+                  <stop offset="100%" stop-color="#8B0000"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Background glow -->
+              <ellipse cx="160" cy="100" rx="140" ry="90" fill="url(#glow3)"/>
+
+              <!-- WiFi router (center bottom) -->
+              <rect x="140" y="155" width="40" height="26" rx="4" fill="#1a3a2a" stroke="#00C88A" stroke-width="1.5"/>
+              <rect x="148" y="163" width="24" height="10" rx="2" fill="#00875f" opacity="0.7"/>
+              <!-- Router light -->
+              <circle cx="170" cy="158" r="3" fill="#00FF88">
+                <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/>
+              </circle>
+              <!-- Antenna -->
+              <line x1="155" y1="155" x2="150" y2="142" stroke="#00C88A" stroke-width="2"/>
+              <line x1="165" y1="155" x2="170" y2="142" stroke="#00C88A" stroke-width="2"/>
+              <!-- WiFi waves from router -->
+              <path d="M130,148 Q160,130 190,148" fill="none" stroke="#00FF88" stroke-width="1.5" opacity="0.6">
+                <animate attributeName="opacity" values="0.6;0.1;0.6" dur="2s" repeatCount="indefinite"/>
+              </path>
+              <path d="M118,140 Q160,115 202,140" fill="none" stroke="#00FF88" stroke-width="1.5" opacity="0.4">
+                <animate attributeName="opacity" values="0.4;0.05;0.4" dur="2s" begin="0.3s" repeatCount="indefinite"/>
+              </path>
+              <path d="M106,132 Q160,100 214,132" fill="none" stroke="#00FF88" stroke-width="1.5" opacity="0.2">
+                <animate attributeName="opacity" values="0.2;0.02;0.2" dur="2s" begin="0.6s" repeatCount="indefinite"/>
+              </path>
+
+              <!-- Person 1 (left - green shirt) -->
+              <!-- Head -->
+              <circle cx="85" cy="60" r="22" fill="url(#skin1)"/>
+              <!-- Hair -->
+              <ellipse cx="85" cy="44" rx="22" ry="12" fill="#1a0a00"/>
+              <!-- Eyes -->
+              <ellipse cx="78" cy="59" rx="3" ry="3.5" fill="white"/>
+              <circle cx="78" cy="60" r="1.8" fill="#3a1a00"/>
+              <ellipse cx="92" cy="59" rx="3" ry="3.5" fill="white"/>
+              <circle cx="92" cy="60" r="1.8" fill="#3a1a00"/>
+              <!-- Smile -->
+              <path d="M79,68 Q85,74 91,68" fill="none" stroke="#8B5520" stroke-width="1.8" stroke-linecap="round"/>
+              <!-- Body -->
+              <rect x="65" y="82" width="40" height="58" rx="8" fill="url(#shirt1)"/>
+              <!-- Arm with phone -->
+              <rect x="46" y="88" width="18" height="10" rx="5" fill="url(#skin1)"/>
+              <rect x="36" y="84" width="12" height="18" rx="3" fill="#1a1a2e" stroke="#00C88A" stroke-width="1"/>
+              <!-- Phone screen -->
+              <rect x="38" y="86" width="8" height="13" rx="1" fill="#00C88A" opacity="0.7"/>
+              <!-- Phone signal icon on screen -->
+              <text x="39" y="96" font-size="7" fill="white">📶</text>
+
+              <!-- Connection arrow between people -->
+              <path d="M115,100 Q160,85 205,100" fill="none" stroke="#FFD700" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowG)">
+                <animate attributeName="stroke-dashoffset" values="0;-16" dur="0.8s" repeatCount="indefinite"/>
+              </path>
+              <defs>
+                <marker id="arrowG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 Z" fill="#FFD700"/>
+                </marker>
+              </defs>
+              <!-- Reward stars on arrow -->
+              <text x="148" y="84" font-size="14" fill="#FFD700" opacity="0.9">⭐</text>
+
+              <!-- Person 2 (right - red shirt) -->
+              <!-- Head -->
+              <circle cx="235" cy="60" r="22" fill="url(#skin1)"/>
+              <!-- Hair (longer, female) -->
+              <ellipse cx="235" cy="42" rx="22" ry="14" fill="#1a0a00"/>
+              <rect x="215" y="48" width="6" height="30" rx="3" fill="#1a0a00"/>
+              <rect x="249" y="48" width="6" height="30" rx="3" fill="#1a0a00"/>
+              <!-- Eyes -->
+              <ellipse cx="228" cy="59" rx="3" ry="3.5" fill="white"/>
+              <circle cx="228" cy="60" r="1.8" fill="#3a1a00"/>
+              <ellipse cx="242" cy="59" rx="3" ry="3.5" fill="white"/>
+              <circle cx="242" cy="60" r="1.8" fill="#3a1a00"/>
+              <!-- Smile -->
+              <path d="M229,68 Q235,74 241,68" fill="none" stroke="#8B5520" stroke-width="1.8" stroke-linecap="round"/>
+              <!-- Body -->
+              <rect x="215" y="82" width="40" height="58" rx="8" fill="url(#shirt2)"/>
+              <!-- Arm with laptop -->
+              <rect x="196" y="88" width="18" height="10" rx="5" fill="url(#skin1)"/>
+              <!-- Laptop -->
+              <rect x="185" y="100" width="40" height="28" rx="2" fill="#1a1a2e" stroke="#F42A41" stroke-width="1"/>
+              <rect x="187" y="102" width="36" height="22" rx="1" fill="#0a2a1a"/>
+              <!-- Laptop screen content -->
+              <rect x="189" y="104" width="32" height="18" rx="1" fill="#00C88A" opacity="0.3"/>
+              <text x="198" y="116" font-size="9" fill="#00FF88">✓ Connected</text>
+              <!-- Happiness burst -->
+              <text x="246" y="48" font-size="18" fill="#FFD700">😊</text>
+              <text x="60" y="50" font-size="18" fill="#FFD700">😄</text>
+            </svg>
+          </div>
+
+          <!-- Network diagram -->
+          <div class="network-area">
+            <div class="network-title">📡 &nbsp; How the Network Grows</div>
+            <svg viewBox="0 0 380 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:180px;">
+              <defs>
+                <marker id="arrow" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
+                  <polygon points="0,0 8,3 0,6" fill="#00C88A"/>
+                </marker>
+                <marker id="arrowR" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
+                  <polygon points="0,0 8,3 0,6" fill="#F42A41"/>
+                </marker>
+                <filter id="nodeGlow">
+                  <feGaussianBlur stdDeviation="3" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+              </defs>
+
+              <!-- Central hub (ISP) -->
+              <circle cx="190" cy="90" r="32" fill="#006A4E" stroke="#00C88A" stroke-width="2" filter="url(#nodeGlow)"/>
+              <text x="190" y="85" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-weight="700" font-size="11" fill="white">INTERNET</text>
+              <text x="190" y="99" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-weight="700" font-size="11" fill="#00FF88">HUB</text>
+              <!-- Satellite dish on hub -->
+              <text x="183" y="72" font-size="14">📡</text>
+
+              <!-- House 1 (top left) -->
+              <polygon points="58,28 78,8 98,28" fill="#F42A41" opacity="0.9"/>
+              <rect x="62" y="28" width="32" height="24" rx="2" fill="#C8102E"/>
+              <rect x="73" y="36" width="10" height="16" rx="1" fill="#1a0a00"/>
+              <text x="78" y="20" text-anchor="middle" font-size="10" fill="#FFD700">🏠</text>
+              <text x="78" y="66" text-anchor="middle" font-family="Barlow,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">Your Home</text>
+
+              <!-- House 2 (top right) -->
+              <polygon points="282,28 302,8 322,28" fill="#006A4E" opacity="0.9"/>
+              <rect x="286" y="28" width="32" height="24" rx="2" fill="#004d38"/>
+              <rect x="297" y="36" width="10" height="16" rx="1" fill="#1a0a00"/>
+              <text x="302" y="66" text-anchor="middle" font-family="Barlow,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">Friend's Home</text>
+
+              <!-- House 3 (bottom left) -->
+              <polygon points="32,148 52,128 72,148" fill="#006A4E" opacity="0.8"/>
+              <rect x="36" y="148" width="32" height="24" rx="2" fill="#004d38"/>
+              <rect x="47" y="156" width="10" height="16" rx="1" fill="#1a0a00"/>
+              <text x="52" y="185" text-anchor="middle" font-family="Barlow,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">Neighbour</text>
+
+              <!-- House 4 (bottom right) -->
+              <polygon points="308,148 328,128 348,148" fill="#006A4E" opacity="0.8"/>
+              <rect x="312" y="148" width="32" height="24" rx="2" fill="#004d38"/>
+              <rect x="323" y="156" width="10" height="16" rx="1" fill="#1a0a00"/>
+              <text x="328" y="185" text-anchor="middle" font-family="Barlow,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">Flatmate</text>
+
+              <!-- Connection lines (animated) -->
+              <line x1="96" y1="38" x2="160" y2="72" stroke="#00C88A" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow)">
+                <animate attributeName="stroke-dashoffset" values="0;-16" dur="1s" repeatCount="indefinite"/>
+              </line>
+              <line x1="284" y1="38" x2="222" y2="72" stroke="#00C88A" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow)">
+                <animate attributeName="stroke-dashoffset" values="0;-16" dur="1s" begin="0.25s" repeatCount="indefinite"/>
+              </line>
+              <line x1="70" y1="148" x2="160" y2="108" stroke="#00C88A" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow)">
+                <animate attributeName="stroke-dashoffset" values="0;-16" dur="1s" begin="0.5s" repeatCount="indefinite"/>
+              </line>
+              <line x1="310" y1="148" x2="222" y2="108" stroke="#00C88A" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow)">
+                <animate attributeName="stroke-dashoffset" values="0;-16" dur="1s" begin="0.75s" repeatCount="indefinite"/>
+              </line>
+
+              <!-- Referral arrows between houses -->
+              <path d="M98,25 Q190,-10 282,25" fill="none" stroke="#F42A41" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowR)">
+                <animate attributeName="stroke-dashoffset" values="0;-14" dur="1.2s" repeatCount="indefinite"/>
+              </path>
+
+              <!-- Reward badge in middle of referral -->
+              <circle cx="190" cy="10" r="12" fill="#F42A41" stroke="#FFD700" stroke-width="1.5"/>
+              <text x="190" y="15" text-anchor="middle" font-size="12">৳</text>
+
+              <!-- Signal pulses from hub -->
+              <circle cx="190" cy="90" r="40" fill="none" stroke="#00C88A" stroke-width="1" opacity="0.4">
+                <animate attributeName="r" values="32;55;32" dur="2s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.4;0;0.4" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="190" cy="90" r="40" fill="none" stroke="#00C88A" stroke-width="1" opacity="0.2">
+                <animate attributeName="r" values="32;70;32" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.2;0;0.2" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5: BENEFIT LINE -->
+    <div class="benefit-section">
+      <div class="benefit-pill">
+        <div class="benefit-text">
+          🌟 &nbsp; Invite your <em>friends, colleagues,</em> or <em>flatmates</em> and enjoy <em>special rewards</em> when they connect &nbsp; 🌟
+        </div>
+      </div>
+    </div>
+
+    <!-- 6: CONDITIONS -->
+    <div class="conditions-section">
+      <div class="conditions-box">
+        <div class="conditions-header">📋 &nbsp; Terms & Conditions</div>
+        <div class="condition-item">Each customer can claim <strong>1 referral reward every 2 months</strong></div>
+        <div class="condition-item">After the 2-month period, customers become <strong>eligible to claim again</strong></div>
+        <div class="condition-item">Offer valid for <strong>successful new connections only</strong> — existing subscribers do not qualify as referrals</div>
+      </div>
+    </div>
+
+    <!-- Bottom flag band -->
+    <div class="bottom-band"></div>
+
+  </div><!-- /content -->
+
+</div><!-- /poster -->
+</body>
+</html>
